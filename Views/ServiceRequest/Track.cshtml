@@ -1,0 +1,64 @@
+@model ServiceRequestListViewModel
+@{
+    ViewData["Title"] = "Track Requests";
+}
+
+@if (Model.DbError != null)
+{
+    <div class="alert alert-danger"><i class="bi bi-database-x me-2"></i>@Model.DbError</div>
+}
+
+<div class="card-panel mb-3">
+    <h5 class="section-title">Track Your Request</h5>
+    <form method="get" asp-action="Track" class="row g-2">
+        <div class="col-md-9">
+            <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Enter Request ID or student name" />
+        </div>
+        <div class="col-md-3 d-grid"><button class="btn btn-teal" type="submit"><i class="bi bi-search"></i> Track</button></div>
+    </form>
+    @if (string.IsNullOrWhiteSpace(Model.Search))
+    {
+        <div class="small text-muted mt-2">Showing the 10 most recent requests.</div>
+    }
+</div>
+
+@if (Model.Requests.Count == 0)
+{
+    <div class="card-panel">
+        <div class="empty-state"><i class="bi bi-search"></i><p>No matching request found.</p>
+            <a class="btn btn-teal btn-sm" asp-action="Create">Submit a request</a></div>
+    </div>
+}
+
+@foreach (var r in Model.Requests)
+{
+    int step = UiHelper.StatusStep(r.Status);
+    <div class="card-panel mb-3 track-card">
+        <div class="row g-3">
+            <div class="col-lg-5">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <h5 class="mb-0">Request #@r.RequestId</h5>
+                    <span class="badge status-badge @UiHelper.StatusClass(r.Status)">@r.Status</span>
+                </div>
+                <dl class="track-details mb-0">
+                    <dt>Student Name</dt><dd>@r.StudentName</dd>
+                    <dt>Service Type</dt><dd><i class="bi @UiHelper.ServiceIcon(r.ServiceType) me-1 text-teal"></i>@r.ServiceType</dd>
+                    <dt>Priority</dt><dd><span class="prio @UiHelper.PriorityClass(r.Priority)">@r.Priority</span></dd>
+                    <dt>Request Date</dt><dd>@r.RequestDate.ToString("dd MMM yyyy, hh:mm tt")</dd>
+                </dl>
+            </div>
+            <div class="col-lg-7 d-flex align-items-center">
+                <div class="stepper w-100">
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        string cls = (i + 1 < step || r.Status == "Completed") ? "done" : (i + 1 == step ? "current" : "");
+                        <div class="step @cls">
+                            <span class="dot">@if (cls == "done") { <i class="bi bi-check-lg"></i> } else { @(i + 1) }</span>
+                            <small>@Lookups.Statuses[i]</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c6e91"/><stop offset="0.6" stop-color="#8fd3d6"/><stop offset="1" stop-color="#e8f7f2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1300" cy="170" r="70" fill="#fff6d6" opacity=".9"/>
+  <g fill="#fff" opacity=".7"><ellipse cx="300" cy="150" rx="120" ry="28"/><ellipse cx="380" cy="135" rx="80" ry="24"/><ellipse cx="900" cy="100" rx="140" ry="30"/></g>
+  <!-- Main building -->
+  <g fill="#173B57">
+    <rect x="480" y="430" width="640" height="320"/>
+    <rect x="720" y="340" width="160" height="410"/>
+    <polygon points="700,340 800,270 900,340"/>
+    <rect x="796" y="215" width="8" height="55"/>
+    <rect x="330" y="520" width="170" height="230"/>
+    <rect x="1100" y="520" width="170" height="230"/>
+  </g>
+  <g fill="#D8F3EE" opacity=".85">
+    <rect x="520" y="470" width="40" height="60"/><rect x="590" y="470" width="40" height="60"/><rect x="660" y="470" width="40" height="60"/>
+    <rect x="900" y="470" width="40" height="60"/><rect x="970" y="470" width="40" height="60"/><rect x="1040" y="470" width="40" height="60"/>
+    <rect x="520" y="580" width="40" height="60"/><rect x="590" y="580" width="40" height="60"/><rect x="660" y="580" width="40" height="60"/>
+    <rect x="900" y="580" width="40" height="60"/><rect x="970" y="580" width="40" height="60"/><rect x="1040" y="580" width="40" height="60"/>
+    <rect x="765" y="400" width="70" height="90"/><rect x="765" y="520" width="70" height="90"/>
+    <rect x="360" y="560" width="30" height="50"/><rect x="430" y="560" width="30" height="50"/>
+    <rect x="1130" y="560" width="30" height="50"/><rect x="1200" y="560" width="30" height="50"/>
+  </g>
+  <rect x="740" y="650" width="120" height="100" fill="#087F8C"/>
+  <!-- Ground -->
+  <rect y="750" width="1600" height="150" fill="#3f9b78"/>
+  <polygon points="740,750 860,750 1000,900 600,900" fill="#d9d2bf"/>
+  <!-- Trees -->
+  <g fill="#2d7a5a">
+    <circle cx="170" cy="690" r="70"/><circle cx="260" cy="710" r="55"/><circle cx="1400" cy="690" r="70"/><circle cx="1330" cy="715" r="55"/>
+  </g>
+  <g fill="#5b4631"><rect x="164" y="730" width="12" height="40"/><rect x="1394" y="730" width="12" height="40"/></g>
+</svg>

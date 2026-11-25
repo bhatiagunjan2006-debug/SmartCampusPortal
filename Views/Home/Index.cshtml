@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Welcome";
+    ViewData["Landing"] = true;
+}
+
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7 text-white">
+                <span class="hero-chip"><i class="bi bi-mortarboard-fill me-1"></i> Marwadi University, Rajkot</span>
+                <h1 class="hero-title">MARWADI UNIVERSITY</h1>
+                <h2 class="hero-sub">Smart Campus Service Portal</h2>
+                <p class="hero-tag">One Campus. Every Service. One Platform.</p>
+                <p class="hero-text">Raise IT, library, maintenance and transport requests in one place and follow every request from submission to completion.</p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a class="btn btn-light btn-lg fw-semibold" asp-controller="Home" asp-action="Dashboard"><i class="bi bi-speedometer2 me-1"></i> Open Dashboard</a>
+                    <a class="btn btn-outline-light btn-lg" asp-controller="ServiceRequest" asp-action="Create"><i class="bi bi-plus-circle me-1"></i> Submit Request</a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="glass-card">
+                    <h5 class="mb-3">Campus Services</h5>
+                    @foreach (var t in Lookups.ServiceTypes)
+                    {
+                        <a class="glass-item" asp-controller="ServiceRequest" asp-action="Create" asp-route-serviceType="@t">
+                            <i class="bi @UiHelper.ServiceIcon(t)"></i> <span>@t</span> <i class="bi bi-arrow-right ms-auto"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="feature-strip">
+    <div class="container">
+        <div class="row g-3 text-center">
+            <div class="col-6 col-md-3"><div class="feature"><i class="bi bi-hdd-network"></i><strong>ASP.NET Core MVC</strong></div></div>
+            <div class="col-6 col-md-3"><div class="feature"><i class="bi bi-database"></i><strong>SQL Database</strong></div></div>
+            <div class="col-6 col-md-3"><div class="feature"><i class="bi bi-diagram-3"></i><strong>REST Web API</strong></div></div>
+            <div class="col-6 col-md-3"><div class="feature"><i class="bi bi-phone"></i><strong>Responsive Design</strong></div></div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "API Information";
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
+}
+
+<div class="card-panel mb-3">
+    <h4 class="mb-1">Smart Campus REST API</h4>
+    <p class="text-muted mb-3">These endpoints use the same SmartCampusDB database as the MVC pages.</p>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-teal" href="/swagger" target="_blank"><i class="bi bi-box-arrow-up-right me-1"></i> Open Swagger UI</a>
+        <a class="btn btn-outline-secondary" href="/api/ServiceApi" target="_blank"><i class="bi bi-braces me-1"></i> Try GET (JSON)</a>
+    </div>
+    <div class="small text-muted mt-2">Base URL: <code>@baseUrl</code></div>
+</div>
+
+<div class="card-panel mb-3">
+    <div class="table-responsive">
+        <table class="table align-middle campus-table mb-0">
+            <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th><th>Success</th></tr></thead>
+            <tbody>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>api/ServiceApi</code></td><td>Retrieve all service requests</td><td>200 OK</td></tr>
+                <tr><td><span class="badge text-bg-success">GET</span></td><td><code>api/ServiceApi/{id}</code></td><td>Retrieve one request</td><td>200 / 404</td></tr>
+                <tr><td><span class="badge text-bg-primary">POST</span></td><td><code>api/ServiceApi</code></td><td>Create a new service request</td><td>201 Created / 400</td></tr>
+                <tr><td><span class="badge text-bg-warning">PUT</span></td><td><code>api/ServiceApi/UpdateStatus/{id}</code></td><td>Update request status</td><td>200 / 400 / 404</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card-panel h-100">
+            <h6>POST api/ServiceApi &mdash; request body</h6>
+<pre class="code-block">{
+  "studentName": "Gunjan Bhatia",
+  "department": "Computer Science &amp; Engineering",
+  "serviceType": "IT Support",
+  "description": "Wi-Fi not working in Lab 5",
+  "priority": "High"
+}</pre>
+            <small class="text-muted">Status is set to Pending and RequestDate to the current date/time by the server.</small>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-panel h-100">
+            <h6>PUT api/ServiceApi/UpdateStatus/1 &mdash; request body</h6>
+<pre class="code-block">{
+  "status": "In Progress"
+}</pre>
+            <small class="text-muted">Allowed values: Pending, In Progress, Completed.</small>
+        </div>
+    </div>
+</div>

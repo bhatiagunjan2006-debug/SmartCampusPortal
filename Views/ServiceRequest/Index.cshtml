@@ -1,0 +1,102 @@
+@model ServiceRequestListViewModel
+@{
+    ViewData["Title"] = "All Requests";
+    string returnUrl = Context.Request.Path + Context.Request.QueryString;
+    bool filtered = !string.IsNullOrWhiteSpace(Model.Search) || !string.IsNullOrWhiteSpace(Model.ServiceType)
+                    || !string.IsNullOrWhiteSpace(Model.Priority) || !string.IsNullOrWhiteSpace(Model.Status);
+}
+
+@if (Model.DbError != null)
+{
+    <div class="alert alert-danger"><i class="bi bi-database-x me-2"></i>@Model.DbError</div>
+}
+
+<div class="card-panel mb-3">
+    <form method="get" asp-action="Index" class="row g-2 align-items-end">
+        <div class="col-lg-3 col-md-6">
+            <label class="form-label small mb-1">Search</label>
+            <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Student name or request ID" />
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <label class="form-label small mb-1">Service Type</label>
+            <select name="serviceType" class="form-select">
+                <option value="">All</option>
+                @foreach (var t in Lookups.ServiceTypes) { <option value="@t" selected="@(t == Model.ServiceType)">@t</option> }
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <label class="form-label small mb-1">Priority</label>
+            <select name="priority" class="form-select">
+                <option value="">All</option>
+                @foreach (var p in Lookups.Priorities) { <option value="@p" selected="@(p == Model.Priority)">@p</option> }
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <label class="form-label small mb-1">Status</label>
+            <select name="status" class="form-select">
+                <option value="">All</option>
+                @foreach (var s in Lookups.Statuses) { <option value="@s" selected="@(s == Model.Status)">@s</option> }
+            </select>
+        </div>
+        <div class="col-lg-3 d-flex gap-2">
+            <button class="btn btn-teal flex-fill" type="submit"><i class="bi bi-search"></i> Filter</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Reset</a>
+        </div>
+    </form>
+</div>
+
+<div class="card-panel">
+    <div class="d-flex align-items-center mb-3">
+        <h5 class="section-title mb-0">Service Requests <span class="text-muted fw-normal">(@Model.Requests.Count)</span></h5>
+        <a class="btn btn-teal btn-sm ms-auto" asp-action="Create"><i class="bi bi-plus-lg"></i> New</a>
+    </div>
+
+    @if (Model.Requests.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            @if (filtered) { <p>No requests match your search or filters.</p> }
+            else { <p>No service requests have been submitted yet.</p> }
+            <a class="btn btn-teal btn-sm" asp-action="Create">Submit a request</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle campus-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Request ID</th><th>Student Name</th><th>Department</th><th>Service Type</th>
+                        <th>Description</th><th>Priority</th><th>Status</th><th>Request Date</th><th style="min-width:210px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model.Requests)
+                {
+                    <tr>
+                        <td><strong>#@r.RequestId</strong></td>
+                        <td>@r.StudentName</td>
+                        <td>@r.Department</td>
+                        <td><i class="bi @UiHelper.ServiceIcon(r.ServiceType) me-1 text-teal"></i>@r.ServiceType</td>
+                        <td class="desc-cell" title="@r.Description">@(r.Description.Length > 50 ? r.Description.Substring(0, 50) + "..." : r.Description)</td>
+                        <td><span class="prio @UiHelper.PriorityClass(r.Priority)">@r.Priority</span></td>
+                        <td><span class="badge status-badge @UiHelper.StatusClass(r.Status)">@r.Status</span></td>
+                        <td class="text-nowrap">@r.RequestDate.ToString("dd MMM yyyy, hh:mm tt")</td>
+                        <td>
+                            <form asp-action="UpdateStatus" method="post" class="d-flex gap-1"
+                                  data-confirm="Are you sure you want to update the status of request #@r.RequestId?">
+                                <input type="hidden" name="id" value="@r.RequestId" />
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <select name="status" class="form-select form-select-sm">
+                                    @foreach (var s in Lookups.Statuses) { <option value="@s" selected="@(s == r.Status)">@s</option> }
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-teal">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

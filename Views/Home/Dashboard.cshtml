@@ -1,0 +1,77 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@if (Model.DbError != null)
+{
+    <div class="alert alert-danger"><i class="bi bi-database-x me-2"></i>@Model.DbError</div>
+}
+
+<div class="welcome-banner mb-4">
+    <h3 class="mb-1">Welcome to Marwadi University Smart Campus Portal</h3>
+    <p class="mb-0 opacity-90">One Campus. Every Service. One Platform. Submit, manage and track campus service requests.</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <a class="stat-card stat-total" asp-controller="ServiceRequest" asp-action="Index">
+            <i class="bi bi-collection"></i><div><div class="stat-num">@Model.Total</div><div class="stat-label">Total Service Requests</div></div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <a class="stat-card stat-pending" asp-controller="ServiceRequest" asp-action="Index" asp-route-status="Pending">
+            <i class="bi bi-hourglass-split"></i><div><div class="stat-num">@Model.Pending</div><div class="stat-label">Pending Requests</div></div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <a class="stat-card stat-progress" asp-controller="ServiceRequest" asp-action="Index" asp-route-status="In Progress">
+            <i class="bi bi-arrow-repeat"></i><div><div class="stat-num">@Model.InProgress</div><div class="stat-label">In Progress Requests</div></div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <a class="stat-card stat-done" asp-controller="ServiceRequest" asp-action="Index" asp-route-status="Completed">
+            <i class="bi bi-check2-circle"></i><div><div class="stat-num">@Model.Completed</div><div class="stat-label">Completed Requests</div></div>
+        </a>
+    </div>
+</div>
+
+<h5 class="section-title">Quick Actions</h5>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Create"><i class="bi bi-plus-circle"></i><strong>Submit New Request</strong><small>Raise a campus service request</small></a></div>
+    <div class="col-6 col-lg-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Index"><i class="bi bi-list-check"></i><strong>View All Requests</strong><small>Search, filter and update</small></a></div>
+    <div class="col-6 col-lg-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Track"><i class="bi bi-geo-alt"></i><strong>Track Request Status</strong><small>See progress step by step</small></a></div>
+    <div class="col-6 col-lg-3"><a class="quick-card" asp-controller="Home" asp-action="About" asp-fragment="services"><i class="bi bi-building"></i><strong>Campus Services</strong><small>IT, Library, Maintenance, Transport</small></a></div>
+</div>
+
+<div class="card-panel">
+    <div class="d-flex align-items-center mb-3">
+        <h5 class="section-title mb-0">Recent Service Requests</h5>
+        <a class="ms-auto small fw-semibold" asp-controller="ServiceRequest" asp-action="Index">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    @if (Model.Recent.Count == 0)
+    {
+        <div class="empty-state"><i class="bi bi-inbox"></i><p>No service requests yet.</p>
+            <a class="btn btn-teal btn-sm" asp-controller="ServiceRequest" asp-action="Create">Submit the first request</a></div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle campus-table mb-0">
+                <thead><tr><th>Request ID</th><th>Student Name</th><th>Service Type</th><th>Priority</th><th>Status</th></tr></thead>
+                <tbody>
+                @foreach (var r in Model.Recent)
+                {
+                    <tr>
+                        <td><strong>#@r.RequestId</strong></td>
+                        <td>@r.StudentName</td>
+                        <td><i class="bi @UiHelper.ServiceIcon(r.ServiceType) me-1 text-teal"></i>@r.ServiceType</td>
+                        <td><span class="prio @UiHelper.PriorityClass(r.Priority)">@r.Priority</span></td>
+                        <td><span class="badge status-badge @UiHelper.StatusClass(r.Status)">@r.Status</span></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

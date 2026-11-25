@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "About Campus";
+}
+
+<div class="welcome-banner mb-4">
+    <h3 class="mb-1">About Marwadi University</h3>
+    <p class="mb-0 opacity-90">Marwadi University, Rajkot, Gujarat &mdash; a modern campus with digital services for students, faculty and staff.</p>
+</div>
+
+<div class="card-panel mb-4">
+    <h5 class="section-title">About the Smart Campus Service Portal</h5>
+    <p class="mb-0">The portal brings everyday campus services into a single platform. Students raise a request, administrators update its status, and everyone can track progress in real time. The portal is built with ASP.NET Core MVC, a SQL database and a RESTful Web API.</p>
+</div>
+
+<h5 class="section-title" id="services">Campus Services</h5>
+<div class="row g-3">
+    <div class="col-md-6 col-xl-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Create" asp-route-serviceType="IT Support"><i class="bi bi-pc-display"></i><strong>IT Support</strong><small>Wi-Fi, lab systems, accounts, software</small></a></div>
+    <div class="col-md-6 col-xl-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Create" asp-route-serviceType="Library"><i class="bi bi-book"></i><strong>Library</strong><small>Books, journals, digital resources</small></a></div>
+    <div class="col-md-6 col-xl-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Create" asp-route-serviceType="Maintenance"><i class="bi bi-tools"></i><strong>Maintenance</strong><small>Classrooms, hostels, electrical, plumbing</small></a></div>
+    <div class="col-md-6 col-xl-3"><a class="quick-card" asp-controller="ServiceRequest" asp-action="Create" asp-route-serviceType="Transport"><i class="bi bi-bus-front"></i><strong>Transport</strong><small>Bus routes, timings, pass issues</small></a></div>
+</div>
